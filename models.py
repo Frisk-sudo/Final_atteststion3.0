@@ -74,7 +74,7 @@ class PagesFilter(BookFilter):
         return result
 
 class BookManager:
-    def __init__(self, data_file='data/books.json'):
+    def __init__(self, data_file="books.json"):
         self.__data_file = data_file
         self.__books = []
         self.__history = deque(maxlen=10)
