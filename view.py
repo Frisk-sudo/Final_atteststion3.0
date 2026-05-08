@@ -35,11 +35,35 @@ class View:
 
     @staticmethod
     def get_book_input():
-        title = input("Введите название: ").strip()
-        author = input("Введите автора: ").strip()
-        genre = input("Введите жанр: ").strip()
-        pages = input("Введите количество страниц: ").strip()
-        return {"title": title, "author": author, "genre": genre, "pages": pages}
+        while True:
+            title = input("Введите название: ").strip()
+            if not title:
+                print("Ошибка: название книги не может быть пустым. Попробуйте снова.")
+                continue
+
+            author = input("Введите автора: ").strip()
+            if not author:
+                print("Ошибка: имя автора не может быть пустым. Попробуйте снова.")
+                continue
+
+            genre = input("Введите жанр: ").strip()
+            if not genre:
+                print("Ошибка: жанр не может быть пустым. Попробуйте снова.")
+                continue
+
+            pages = input("Введите количество страниц: ").strip()
+            if not pages:
+                print("Ошибка: количество страниц не может быть пустым. Попробуйте снова.")
+                continue
+
+            try:
+                pages_int = int(pages)
+                if pages_int <= 0:
+                    print("Ошибка: количество страниц должно быть положительным числом. Попробуйте снова.")
+                    continue
+                return {"title": title, "author": author, "genre": genre, "pages": pages_int}
+            except ValueError:
+                print("Ошибка: количество страниц должно быть числом. Попробуйте снова.")
 
     @staticmethod
     def get_search_genre_input():

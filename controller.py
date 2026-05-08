@@ -29,17 +29,19 @@ class Controller:
             else:
                 self.view.show_message("Ошибка ввода. Введите число от 1 до 7!")
 
+
     def add_book(self):
-        try:
-            book_data = self.view.get_book_input()
-            pages = int(book_data["pages"])
-            book = Book(book_data["title"], book_data["author"], pages, book_data["genre"])
-            if self.book_manager.add_book(book):
-                self.view.show_message(f"Книга '{book.title}' успешно добавлена!")
-            else:
-                self.view.show_message(f"Книга с названием '{book.title}' уже существует!")
-        except ValueError:
-            self.view.show_message("Ошибка: количество страниц должно быть числом!")
+        book_data = self.view.get_book_input()
+        book = Book(
+            book_data["title"],
+            book_data["author"],
+            book_data["pages"],
+            book_data["genre"]
+        )
+        if self.book_manager.add_book(book):
+            self.view.show_message(f"Книга '{book.title}' успешно добавлена!")
+        else:
+            self.view.show_message(f"Книга с названием '{book.title}' уже существует!")
 
     def remove_book(self):
         title = self.view.get_search_input()
