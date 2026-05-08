@@ -1,5 +1,7 @@
+# View
 class View:
     @staticmethod
+    # Меню
     def show_menu():
         print("\n=== Book Tracker ===")
         print("Выберите действие:")
@@ -15,6 +17,7 @@ class View:
     def get_user_choice():
         return input("\nВведите свой выбор (1-7): ").strip()
 
+    # Результат запроса
     @staticmethod
     def show_books(books):
         if not books:
@@ -24,6 +27,7 @@ class View:
         for i, book in enumerate(books, 1):
             print(f"{i}. Название: {book.title} | Автор: {book.author} | Жанр: {book.genre} | Количесво страниц: {book.pages}")
 
+    # История
     @staticmethod
     def show_history(history):
         if not history:
@@ -33,6 +37,7 @@ class View:
         for i, action in enumerate(history, 1):
             print(f"{i}. {action}")
 
+    # Заполнения информации о книге
     @staticmethod
     def get_book_input():
         while True:

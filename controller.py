@@ -1,3 +1,4 @@
+# Controller
 from models import Book, BookManager
 from view import View
 
@@ -6,6 +7,7 @@ class Controller:
         self.book_manager = BookManager()
         self.view = View()
 
+    # Распределение после меню
     def run(self):
         while True:
             self.view.show_menu()
@@ -29,7 +31,7 @@ class Controller:
             else:
                 self.view.show_message("Ошибка ввода. Введите число от 1 до 7!")
 
-
+    # Добавление книги
     def add_book(self):
         book_data = self.view.get_book_input()
         book = Book(
@@ -43,6 +45,7 @@ class Controller:
         else:
             self.view.show_message(f"Книга с названием '{book.title}' уже существует!")
 
+    # Удаление книги
     def remove_book(self):
         title = self.view.get_search_input()
         if self.book_manager.delete_book(title):
@@ -50,6 +53,7 @@ class Controller:
         else:
             self.view.show_message(f"Книга '{title}' не найдена!")
 
+    # Просмотр книг
     def view_books(self):
         books = self.book_manager.get_all_books()
         self.view.show_books(books)
