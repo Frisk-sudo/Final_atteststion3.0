@@ -4,9 +4,9 @@ from collections import deque
 class Book ():
     def __init__(self, title, author, pages, genre):
         self.__title = title
-        self.__auther = author
+        self.__author = author
         self.__pages = pages
-        self.__genre - genre
+        self.__genre = genre
 
     # Геттеры
     @property
