@@ -18,11 +18,11 @@ class View:
     @staticmethod
     def show_books(books):
         if not books:
-            print("Книги не найдены")
+            print("Книги, подходящие под запрос, не найдены")
             return
         print("\nКниги:")
         for i, book in enumerate(books, 1):
-            print(f"{i}. Название: {book.title} | Автор {book.author} | Жанр: {book.genre} | Количесво страниц: {book.pages}")
+            print(f"{i}. Название: {book.title} | Автор: {book.author} | Жанр: {book.genre} | Количесво страниц: {book.pages}")
 
     @staticmethod
     def show_history(history):
@@ -42,8 +42,12 @@ class View:
         return {"title": title, "author": author, "genre": genre, "pages": pages}
 
     @staticmethod
+    def get_search_genre_input():
+        return input("Введите жанр книги: ").strip()
+
+    @staticmethod
     def get_search_input():
-        return input("Введите поисковый запрос ").strip()
+        return input("Введите название книги: ").strip()
 
     @staticmethod
     def get_pages_input():
@@ -52,7 +56,7 @@ class View:
                 pages = int(input("Введите максимальное число страниц: "))
                 return pages
             except ValueError:
-                print("Введите число!")
+                print("Ошибка. Введите число!")
 
     @staticmethod
     def show_message(message):

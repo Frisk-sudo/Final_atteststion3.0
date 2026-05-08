@@ -53,7 +53,7 @@ class Controller:
         self.view.show_books(books)
 
     def filter_by_genre(self):
-        genre = self.view.get_search_input()
+        genre = self.view.get_search_genre_input()
         filtered_books = self.book_manager.filter_by_genre(genre)
         self.view.show_books(filtered_books)
 

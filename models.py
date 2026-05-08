@@ -47,7 +47,7 @@ class Book ():
 
 class BookFilter:
     def apply(self, books):
-        raise NotImplementedError("Subclasses must implement apply method")
+        raise NotImplementedError("Ошибка с наследованием класса")
 
 # Наследование от BookFilter
 class GenreFilter(BookFilter):
@@ -57,7 +57,7 @@ class GenreFilter(BookFilter):
     def apply(self, books):
         result = []
         for book in books:
-            if book.genre.lower() == self.genre:
+            if book.genre.lower() == self.__genre:
                 result.append(book)
         return result
 
@@ -69,7 +69,7 @@ class PagesFilter(BookFilter):
     def apply(self, books):
         result = []
         for book in books:
-            if book.pages <= self.max_pages:
+            if book.pages <= self.__max_pages:
                 result.append(book)
         return result
 
