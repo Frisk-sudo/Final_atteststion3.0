@@ -2,13 +2,36 @@ import json
 from collections import deque
 
 class Book ():
-    def __init__(self, title, auther, pages):
+    def __init__(self, title, author, pages, genre):
         self.__title = title
-        self.__auther = auther
+        self.__auther = author
         self.__pages = pages
+        self.__genre - genre
 
-    def get_information (self):
-        return self.__title, self.__auther, self.__pages
+    def get_title(self):
+        return self.__title
+
+    def get_author(self):
+        return self.__author
+
+    def get_pages(self):
+        return self.__pages
+
+    def get_genre(self):
+        return self.__genre
+
+    # Сеттеры с валидацией
+    def set_title(self, title):
+        self.__title = self._validate_string(title, "Title")
+
+    def set_author(self, author):
+        self.__author = self._validate_string(author, "Author")
+
+    def set_pages(self, pages):
+        self.__pages = self._validate_pages(pages)
+
+    def set_genre(self, genre):
+        self.__genre = self._validate_string(genre, "Genre")
     
     def to_dict(self) -> dict:
         return {
@@ -34,7 +57,7 @@ class BookFilter:
 # Наследование от BookFilter
 class GenreFilter(BookFilter):
     def __init__(self, genre):
-        self.genre = genre.lower()
+        self.__genre = genre.lower()
 
     def apply(self, books):
         result = []
@@ -46,7 +69,7 @@ class GenreFilter(BookFilter):
 # Наследование от BookFilter
 class PagesFilter(BookFilter):
     def __init__(self, max_pages):
-        self.max_pages = max_pages
+        self.__max_pages = max_pages
 
     def apply(self, books):
         result = []
@@ -57,17 +80,17 @@ class PagesFilter(BookFilter):
 
 class BookManager:
     def __init__(self, data_file='data/books.json'):
-        self.data_file = data_file
-        self.books = []
-        self.history = deque(maxlen=10)
-        self.load_books()
+        self.__data_file = data_file
+        self.__books = []
+        self.__history = deque(maxlen=10)
+        self.__load_books()
 
     def add_book(self, book):
         if self.find_book_by_title(book.title):
             return False
-        self.books.append(book)
-        self.history.append("Добавлена книга: " + book.title)
-        self.save_books()
+        self.__books.append(book)
+        self.__history.append("Добавлена книга: " + book.title)
+        self.__save_books()
         return True
 
     def save_books(self):
@@ -87,9 +110,9 @@ class BookManager:
         if not book:
             return False
 
-        self.books.remove(book)
-        self.history.append("Удалена книга: " + title)
-        self.save_books()
+        self.__books.remove(book)
+        self.__history.append("Удалена книга: " + title)
+        self.__save_books()
         return True
 
     def find_book_by_title(self, title):
