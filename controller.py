@@ -33,18 +33,20 @@ class Controller:
         try:
             book_data = self.view.get_book_input()
             pages = int(book_data["pages"])
-            book = Book(book_data["title"], book_data["author"], book_data["genre"], pages)
-            self.book_manager.add_book(book)
-            self.view.show_message(f"Book '{book.title}' added successfully!")
-        except ValueError as e:
-            self.view.show_message(f"Error: {e}")
+            book = Book(book_data["title"], book_data["author"], pages, book_data["genre"])
+            if self.book_manager.add_book(book):
+                self.view.show_message(f"Книга '{book.title}' успешно добавлена!")
+            else:
+                self.view.show_message(f"Книга с названием '{book.title}' уже существует!")
+        except ValueError:
+            self.view.show_message("Ошибка: количество страниц должно быть числом!")
 
     def remove_book(self):
         title = self.view.get_search_input()
-        if self.book_manager.remove_book(title):
-            self.view.show_message(f"Книга '{title}' успешно убрана ")
+        if self.book_manager.delete_book(title):
+            self.view.show_message(f"Книга '{title}' успешно удалена!")
         else:
-            self.view.show_message(f"Книга '{title}' не найдена")
+            self.view.show_message(f"Книга '{title}' не найдена!")
 
     def view_books(self):
         books = self.book_manager.get_all_books()

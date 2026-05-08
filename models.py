@@ -8,30 +8,25 @@ class Book ():
         self.__pages = pages
         self.__genre - genre
 
-    def get_title(self):
+    # Геттеры
+    @property
+    def title(self):
         return self.__title
 
-    def get_author(self):
+    @property
+    def author(self):
         return self.__author
 
-    def get_pages(self):
+    @property
+    def pages(self):
         return self.__pages
 
-    def get_genre(self):
+    @property
+    def genre(self):
         return self.__genre
 
-    # Сеттеры с валидацией
-    def set_title(self, title):
-        self.__title = self._validate_string(title, "Title")
-
-    def set_author(self, author):
-        self.__author = self._validate_string(author, "Author")
-
-    def set_pages(self, pages):
-        self.__pages = self._validate_pages(pages)
-
-    def set_genre(self, genre):
-        self.__genre = self._validate_string(genre, "Genre")
+    def get_information(self):
+        return self.__title, self.__author, self.__pages, self.__genre
     
     def to_dict(self) -> dict:
         return {
@@ -93,30 +88,43 @@ class BookManager:
         self.__save_books()
         return True
 
-    def save_books(self):
-        with open(self.data_file, 'w', encoding='utf-8') as f:
-            json.dump([book.to_dict() for book in self.books], f, indent=2)
-
-    def load_books(self):
-        try:
-            with open(self.data_file, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-                self.books = [Book.from_dict(item) for item in data]
-        except (FileNotFoundError, json.JSONDecodeError):
-            self.books = []
-
     def delete_book(self, title):
         book = self.find_book_by_title(title)
         if not book:
             return False
-
         self.__books.remove(book)
         self.__history.append("Удалена книга: " + title)
         self.__save_books()
         return True
 
     def find_book_by_title(self, title):
-        for book in self.books:
+        for book in self.__books:
             if book.title.lower() == title.lower():
                 return book
         return None
+
+    def get_all_books(self):
+        return self.__books
+
+    def get_history(self):
+        return list(self.__history)
+
+    def filter_by_genre(self, genre):
+        filter_obj = GenreFilter(genre)
+        return filter_obj.apply(self.__books)
+
+    def filter_by_pages(self, max_pages):
+        filter_obj = PagesFilter(max_pages)
+        return filter_obj.apply(self.__books)
+
+    def __save_books(self):
+        with open(self.__data_file, 'w', encoding='utf-8') as f:
+            json.dump([book.to_dict() for book in self.__books], f, indent=2)
+
+    def __load_books(self):
+        try:
+            with open(self.__data_file, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                self.__books = [Book.from_dict(item) for item in data]
+        except (FileNotFoundError, json.JSONDecodeError):
+            self.__books = []
